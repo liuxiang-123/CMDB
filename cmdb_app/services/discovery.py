@@ -33,3 +33,26 @@ def discover_server(host, username, password):
         client.close()
 
     return result
+
+from django.utils import timezone
+from cmdb_app.models import AssetServer
+
+def save_discovery_to_db(ip: str, data: dict) -> AssetServer:
+    obj, _ = AssetServer.objects.update_or_create(
+        ip=ip,
+        defaults={
+            "hostname": data.get("hostname", ""),
+            "os": data.get("os", ""),
+            "cpu_model": data.get("cpu_model", ""),
+            "mem_total_mb": data.get("mem_total_mb"),
+            "mem_used_mb": data.get("mem_used_mb"),
+            "mem_free_mb": data.get("mem_free_mb"),
+            "disk_total": data.get("disk_total", ""),
+            "disk_used": data.get("disk_used", ""),
+            "disk_avail": data.get("disk_avail", ""),
+            "disk_use_percent": data.get("disk_use_percent", ""),
+            "status": "online",
+            "last_discovered_at": timezone.now(),
+        }
+    )
+    return obj

@@ -7,7 +7,7 @@ from cmdb_app.models import AssetServer
 
 ip = "68.64.178.48"
 
-res = discover_server(host=ip, username="root", password="你的密码")
+res = discover_server(host=ip, username="root", password="Aa.2100225612")
 print(res)
 
 if res.get("success"):
